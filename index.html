@@ -18,4 +18,34 @@ function checkPassword() {
 }
 window.onload = checkPassword;
 </script>
-<iframe src="https://uploads.knightlab.com/storymapjs/2c1e72c5cc80fe4d2c64ed75aac3d2f2/1/index.html" frameborder="0" width="100%" height="100%"></iframe>
+<iframe 
+    src="https://uploads.knightlab.com/storymapjs/2c1e72c5cc80fe4d2c64ed75aac3d2f2/1/index.html" 
+    frameborder="0" 
+    width="100%" 
+    height="100%"
+    id="storymap">
+</iframe>
+
+<script>
+    const iframe = document.getElementById('storymap');
+    
+    iframe.onload = function() {
+        try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            
+            // Прячем attribution внутри iframe
+            const style = iframeDoc.createElement('style');
+            style.innerHTML = `
+                .leaflet-control-attribution,
+                .leaflet-control-attribution * {
+                    display: none !important;
+                    height: 0 !important;
+                    visibility: hidden !important;
+                }
+            `;
+            iframeDoc.head.appendChild(style);
+        } catch(e) {
+            console.log("Не удалось применить стиль (CORS)");
+        }
+    };
+</script>
